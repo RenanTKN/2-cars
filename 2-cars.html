@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>2 kars</title>
+		<meta charset="UTF-8" />
+		<link href="_imagens/icone.ico" rel="shortcut icon" />
+		<style type="text/css">
+			@import url(http://fonts.googleapis.com/css?family=Montserrat);
+			@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
+			
+			html, body {
+				min-height: 100%;
+			}
+			body {
+				background: linear-gradient(#888,#FFF);
+				margin: 0px;
+				padding: 0px;
+				text-align: center;
+			}
+			h1 {
+				font-family: 'Open Sans Condensed', sans-serif;
+				margin-top: -2px;
+				color: rgb(37,51,122);
+				text-shadow: 0px 0px 15px rgba(0,0,255,1);
+			}
+			canvas {
+				margin: auto;
+				margin-top: -15px;
+				box-shadow: 0px 0px 15px 8px rgb(37,51,122);
+			}
+			p {
+				margin-top: 0px;
+				font-family: Montserrat;
+				font-size: 10pt;
+				line-height: 15px;
+			}
+		</style>
+		<script>
+		
+			var pontos;
+			
+			var c1p;
+			var c2p;
+			
+			var obj11p;
+			var obj12p;
+			
+			var obj21p;
+			var obj22p;
+			
+			var vel=2;
+		
+			document.onkeydown = checkKey;
+
+			var permit1=1, permit2=1;
+			
+			function checkKey(e) {
+
+				e = e || window.event;
+
+//				if (e.keyCode == '38') {
+					// up arrow
+//				}
+//				else if (e.keyCode == '40') {
+					// down arrow
+//				}
+				if (e.keyCode == '37' || e.keyCode == '65') {
+				   // left arrow
+//				   if (c1p==25)
+//						c1p=125;
+//					else
+//						c1p=25;
+					desviar1(c1p);
+				}
+				if (e.keyCode == '39' || e.keyCode == '68') {
+				   // right arrow
+//				   if (c2p==325)
+//						c2p=225;
+//					else
+//						c2p=325;
+					desviar2(c2p);
+				}
+				if (e.keyCode == '32') {
+					// space key
+					//window.location.reload();
+					reset();
+				}
+				
+				function desviar1(carro) {
+					var intervalo;
+					if (permit1==1) {
+						permit1=0;
+						if (carro<=75)
+							dist=3;
+						else
+							dist=-3;
+						
+						intervalo=setInterval(function () {
+							c1p+=dist;
+							if (c1p<25||c1p>125) {
+								permit1=1;
+								clearInterval(intervalo);
+							}
+						}, 1);
+					}
+				}
+				
+				function desviar2(carro) {
+					var intervalo2;
+					if (permit2==1) {
+						permit2=0;
+						if (carro>=275)
+							dist=-3;
+						else
+							dist=3;
+						
+						intervalo2=setInterval(function () {
+							c2p+=dist;
+							if (c2p<225||c2p>325) {
+								permit2=1;
+								clearInterval(intervalo2);
+							}
+						}, 1);
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1>2 Kars</h1>
+		<canvas id="canvas" width="400" height="550">
+		</canvas>
+		<script>
+			var canvas=document.getElementById('canvas');
+			var ctx=canvas.getContext('2d');
+			
+			var w=canvas.width;
+			var h=canvas.height;
+			
+			function reset() {
+			pontos=0;
+			
+			c1p=25;
+			c2p=325;
+			
+			obj11p=-250;
+			obj12p=-550;
+			
+			obj21p=-300;
+			obj22p=-600;
+			
+			vel=3;
+			
+			permit1=1;
+			permit2=1;
+			}
+			reset();
+			var p, t, c;
+			p=[];
+			t=[];
+			c=[];
+			
+			
+			aleat(0);
+			aleat(1);
+			aleat(2);
+			aleat(3);
+			
+			function desenhar() {
+				//Linhas
+				ctx.fillStyle='rgb(37,51,122)';
+				ctx.fillRect(0,0,w,h);
+				ctx.fill();
+				
+				ctx.strokeStyle='rgb(117,139,225)';
+				
+				ctx.beginPath();
+				ctx.lineWidth=1;
+				ctx.moveTo(100,0);
+				ctx.lineTo(100,h);
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.lineWidth=3;
+				ctx.moveTo(200,0);
+				ctx.lineTo(200,h);
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.lineWidth=1;
+				ctx.moveTo(300,0);
+				ctx.lineTo(300,h);
+				ctx.stroke();
+				
+				//Carro Vermelho
+				ctx.beginPath();
+				ctx.fillStyle='rgb(241,57,97)';
+				ctx.rect(c1p,h-100,50,75);
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle='rgb(219,223,224)'
+				ctx.rect(c1p+10,465,30,10);
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle='rgb(219,223,224)'
+				ctx.rect(c1p+10,500,30,10);
+				ctx.fill();
+				
+				//Carro Azul
+				ctx.beginPath();
+				ctx.fillStyle='rgb(1,169,192)';
+				ctx.rect(c2p,h-100,50,75);
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle='rgb(219,223,224)'
+				ctx.rect(c2p+10,465,30,10);
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle='rgb(219,223,224)'
+				ctx.rect(c2p+10,500,30,10);
+				ctx.fill();
+				
+				
+				//Vermelho
+				//obj1
+				ctx.beginPath();
+				ctx.lineWidth=5;
+				ctx.fillStyle='rgb(241,57,97)';
+				ctx.strokeStyle='rgb(219,223,224)';
+				if  (t[0]=='b')
+					ctx.arc(p[0],obj11p,25,2*Math.PI,false);
+				else
+					ctx.fillRect(p[0]-25,obj11p-25,50,50);
+				ctx.fill();
+				ctx.beginPath();
+				if  (t[0]=='b')
+					ctx.arc(p[0],obj11p,20,2*Math.PI,false);
+				else
+					ctx.strokeRect(p[0]-20,obj11p-20,40,40);
+				ctx.stroke();
+				
+				if (t[0]=='q') {
+					if (obj11p>=425 && obj11p<=500 && Math.abs(c1p-p[0]) < 40)
+						perder();
+				}
+				else {
+					if (obj11p>=425 && obj11p<=500 && Math.abs(c1p-p[0]) < 40) {
+						c[0]=1;
+						p[0]=-100;
+						pontos++;
+						if(pontos%5==0)
+							velocidade();
+					}
+					
+					if (obj11p>=h-10 && c[0]!=1)
+						perder();
+				}
+				
+				//obj2
+				ctx.beginPath();
+				ctx.fillStyle='rgb(241,57,97)';
+				ctx.strokeStyle='rgb(219,223,224)';
+				if  (t[1]=='b')
+					ctx.arc(p[1],obj12p,25,2*Math.PI,false);
+				else
+					ctx.fillRect(p[1]-25,obj12p-25,50,50);
+				ctx.fill();
+				ctx.beginPath();
+				if  (t[1]=='b')
+					ctx.arc(p[1],obj12p,20,2*Math.PI,false);
+				else
+					ctx.strokeRect(p[1]-20,obj12p-20,40,40);
+				ctx.stroke();
+				
+				if (t[1]=='q') {
+					if (obj12p>=425 && obj12p<=500 && Math.abs(c1p-p[1]) < 40)
+						perder();
+				}
+				else {
+					if (obj12p>=425 && obj12p<=500 && Math.abs(c1p-p[1]) < 40) {
+						c[1]=1;
+						p[1]=-100;
+						pontos++;
+						if(pontos%5==0)
+							velocidade();
+					}
+					
+					if (obj12p>=h-10 && c[1]!=1)
+						perder();
+				}
+				
+				//Azul
+				//obj1
+				ctx.beginPath();
+				ctx.fillStyle='rgb(1,169,192)';
+				ctx.strokeStyle='rgb(219,223,224)';
+				if  (t[2]=='b')
+					ctx.arc(p[2],obj21p,25,2*Math.PI,false);
+				else
+					ctx.fillRect(p[2]-25,obj21p-25,50,50);
+				ctx.fill();
+				ctx.beginPath();
+				if  (t[2]=='b')
+					ctx.arc(p[2],obj21p,20,2*Math.PI,false);
+				else
+					ctx.strokeRect(p[2]-20,obj21p-20,40,40);
+				ctx.stroke();
+				
+				if (t[2]=='q') {
+					if (obj21p>=425 && obj21p<=500 && Math.abs(c2p-p[2]) < 40)
+						perder();
+				}
+				else {
+					if (obj21p>=425 && obj21p<=500 && Math.abs(c2p-p[2]) < 40) {
+						c[2]=1;
+						p[2]=-100;
+						pontos++;
+						if(pontos%5==0)
+							velocidade();
+					}
+					
+					if (obj21p>=h-10 && c[2]!=1)
+						perder();
+				}
+				
+				//obj2
+				ctx.beginPath();
+				ctx.fillStyle='rgb(1,169,192)';
+				ctx.strokeStyle='rgb(219,223,224)';
+				if  (t[3]=='b')
+					ctx.arc(p[3],obj22p,25,2*Math.PI,false);
+				else
+					ctx.fillRect(p[3]-25,obj22p-25,50,50);
+				ctx.fill();
+				ctx.beginPath();
+				if  (t[3]=='b')
+					ctx.arc(p[3],obj22p,20,2*Math.PI,false);
+				else
+					ctx.strokeRect(p[3]-20,obj22p-20,40,40);
+				ctx.stroke();
+				
+				if (t[3]=='q') {
+					if (obj22p>=425 && obj22p<=500 && Math.abs(c2p-p[3]) < 40)
+						perder();
+				}
+				else {
+					if (obj22p>=425 && obj22p<=500 && Math.abs(c2p-p[3]) < 40) {
+						c[3]=1;
+						p[3]=-100;
+						pontos++
+						if(pontos%5==0)
+							velocidade();
+					}
+					
+					if (obj22p>=h-10 && c[3]!=1)
+						perder();
+				}
+				
+				//Retornar para o início
+				obj11p+=vel;
+				if (obj11p>=h) {
+					obj11p=-50;
+					aleat(0);
+				}
+				obj12p+=vel;
+				if (obj12p>=h) {
+					obj12p=-50;
+					aleat(1);
+				}
+				
+				obj21p+=vel;
+				if (obj21p>=h) {
+					obj21p=-50;
+					aleat(2);
+				}
+				obj22p+=vel;
+				if (obj22p>=h) {
+					obj22p=-50;
+					aleat(3);
+				}
+				
+				
+				ctx.font='25pt Open Sans Condensed';
+				ctx.fillStyle='rgb(219,223,224)';
+				ctx.fillText(pontos,350,40);
+			}
+			
+			function velocidade() {
+				vel+=.25;
+			}
+			
+			function aleat(n) {
+				if (n<2) {
+					if (Math.random()>.5) {
+						p[n]=50;
+					}
+					else {
+						p[n]=150;
+					}
+				}
+				else {
+					if (Math.random()>.5) {
+						p[n]=250;
+					}
+					else {
+						p[n]=350;
+					}
+				}
+				
+				if (Math.random()>.5)
+					t[n]='b';
+				else
+					t[n]='q';
+					
+				//if (c[n]==1) 
+					//pontos++;
+				
+				c[n]=0;
+			}
+			
+			function perder() {
+				vel=0;
+				permit1=0;
+				permit2=0;
+			}
+			
+			jogo=setInterval(desenhar, 10);
+		</script>
+		<p>&larr; ou A - Move o carro vermelho<br />&rarr; ou D - Move o carro azul<br />Espaço - Reinicia</p>
+	</body>
+</html>
